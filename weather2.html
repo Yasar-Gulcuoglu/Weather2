@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            top: 30px;
+            background-color: white;
+            height: 350px;
+            opacity: 0.6;
+            width: 300px;
+            border-radius: 10px;
+            
+        }
+        .info{
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            top: 35px;
+
+        }
+        .temp-main{
+            display: flex;
+            position: relative;
+            top: 70px;
+        }
+        .min-max{
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            top: 100px;
+        }
+
+        
+        .input img{
+            width: 30px;
+            height: 28px;
+        }
+        .input button{
+            cursor: pointer;
+            position: relative;
+            top: 6px;
+
+        }
+        .input input{
+            text-align: center;
+            padding: 5px;
+            outline: 0;
+            font-size: large;
+            margin-top: 20px;
+  
+        }
+        body.parcaliBulutlu{
+            background-image: url("https://cdn-academy.pressidium.com/academy/wp-content/uploads/2021/08/CLouds-6.png");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+
+        }
+        body.bulutlu{
+            background-image: url("https://images.pexels.com/photos/846980/pexels-photo-846980.jpeg?cs=srgb&dl=pexels-moritz-b%C3%B6ing-846980.jpg&fm=jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+        
+        body.gunesli{
+            background-image: url("https://i2-prod.examinerlive.co.uk/incoming/article10372520.ece/ALTERNATES/s1227b/JS75768352.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+        .wind{
+            display: flex;
+        }
+        .wind img{
+            width: 55px;
+            height: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="input"><input type="text" name="" id="inp" placeholder="Şehir Giriniz"><button id="btn"><img src="https://static.thenounproject.com/png/2390538-200.png" alt=""></button></div>
+        <div class="info">
+            <h2 id="city">Ankara, Tr</h2>
+
+            <h3 id="date">1 Nisan 2023</h3>
+        </div>
+        <div class="temp-main">
+            <h1 id="temp">30</h1>
+            <h2>*C</h2>
+        </div>
+        <div class="min-max">
+            <h2 id="sky">Güneşli</h2><br>
+            <div class="wind">
+                <img src="https://w7.pngwing.com/pngs/232/828/png-transparent-computer-icons-wind-symbol-weather-wind-text-cloud-weather-forecasting.png" alt="">
+                <h3 id="wind">15 kph</h3>
+            </div>
+            </div>
+        
+    </div>
+    <script>
+
+            window.onload = function ankara(){
+
+                fetch(`http://api.weatherapi.com/v1/current.json?key={ApiKey}&q={Ankara}&lang=tr`).then(responsive=>{ return responsive.json()
+                }).then(responsive=>{
+                document.querySelector("#sky").innerHTML = responsive.current.condition.text
+                document.querySelector("#temp").innerHTML = responsive.current.temp_c
+                document.querySelector("#city").innerHTML = responsive.location.name + ", " + responsive.location.country
+                document.querySelector("#date").innerHTML = responsive.location.localtime
+                document.querySelector("#wind").innerHTML = responsive.current.wind_kph + " kph"
+                if(responsive.current.condition.text == "Parçalı Bulutlu"){
+                    document.querySelector("body").classList.add("parcaliBulutlu")
+        
+                }
+                else if(responsive.current.condition.text == "Çok Bulutlu"){
+                    document.querySelector("body").classList.add("bulutlu")
+                }
+                else if(responsive.current.condition.text == "Güneşli" || "Açık"){
+                    document.querySelector("body").classList.add("gunesli")
+                }
+                console.log(responsive)
+                })
+            }
+
+            document.querySelector("#btn").addEventListener("click",()=>{
+                let city = document.querySelector("input").value                
+                city = city.replace("ü","u")
+                city = city.replace("Ü","U")
+                city = city.replace("ç","c")
+                city = city.replace("Ç","C")
+                city = city.replace("ğ","g")
+                city = city.replace("Ğ","G")
+                city = city.replace("ı","i")
+                city = city.replace("İ","I")
+                city = city.replace("ş","s")
+                city = city.replace("Ş","S")
+                city = city.replace("ö","o")
+                city = city.replace("Ö","O")
+                console.log(city)
+
+                fetch(`http://api.weatherapi.com/v1/current.json?key=7fa086a996cd497e8b4135643233003&q=${city}&lang=tr`).then(responsive=>{ return responsive.json()
+                }).then(responsive=>{
+                    document.querySelector("#sky").innerHTML = responsive.current.condition.text
+                    document.querySelector("#temp").innerHTML = responsive.current.temp_c
+                    document.querySelector("#city").innerHTML = responsive.location.name + ", " + responsive.location.country
+                    document.querySelector("#date").innerHTML = responsive.location.localtime
+                    document.querySelector("#wind").innerHTML = responsive.current.wind_kph + " kph"
+                    document.querySelector("body").classList.remove("parcaliBulutlu","bulutlu","gunesli")
+                    if(responsive.current.condition.text == "Parçalı Bulutlu"){
+                        document.querySelector("body").classList.add("parcaliBulutlu")
+                        
+                    }
+                    else if(responsive.current.condition.text == "Çok Bulutlu"){
+                        document.querySelector("body").classList.add("bulutlu")
+                    }
+                    else if(responsive.current.condition.text == "Güneşli" || "Açık"){
+                        document.querySelector("body").classList.add("gunesli")
+                    }
+                    console.log(responsive)
+                })
+            })
+    </script>
+</body>
+</html>

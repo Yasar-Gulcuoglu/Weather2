@@ -122,7 +122,7 @@
 
             window.onload = function ankara(){
 
-                fetch(`http://api.weatherapi.com/v1/current.json?key=7fa086a996cd497e8b4135643233003&q={Ankara}&lang=tr`).then(responsive=>{ return responsive.json()
+                fetch(`http://api.weatherapi.com/v1/current.json?key={Put-Your-Api-Key-Here}&q={Ankara}&lang=tr`).then(responsive=>{ return responsive.json()
                 }).then(responsive=>{
                 document.querySelector("#sky").innerHTML = responsive.current.condition.text
                 document.querySelector("#temp").innerHTML = responsive.current.temp_c
@@ -159,7 +159,7 @@
                 city = city.replace("Ö","O")
                 console.log(city)
 
-                fetch(`http://api.weatherapi.com/v1/current.json?key=7fa086a996cd497e8b4135643233003&q=${city}&lang=tr`).then(responsive=>{ return responsive.json()
+                fetch(`http://api.weatherapi.com/v1/current.json?key={Put-Your-Api-Key-Here}&q=${city}&lang=tr`).then(responsive=>{ return responsive.json()
                 }).then(responsive=>{
                     document.querySelector("#sky").innerHTML = responsive.current.condition.text
                     document.querySelector("#temp").innerHTML = responsive.current.temp_c
